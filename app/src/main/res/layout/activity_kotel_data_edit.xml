@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.h1n.kochegar.kochegarone.KotelDataEditActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <Button
+        android:id="@+id/buttonAddNewSensor"
+        android:layout_width="119dp"
+        android:layout_height="101dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:text="добавить новый датчик"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="394dp" />
+
+    <Button
+        android:id="@+id/buttonSaveAndGoToKNDEA"
+        android:layout_width="195dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
+        android:text="сохранить и вернуться"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="430dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="137dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editNameDetector"
+            android:layout_width="105dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="0.52"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:text="Датчик № "
+            android:textColorLink="@android:color/holo_green_light"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.119"
+            tools:layout_editor_absoluteX="259dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" ."
+            android:textSize="30sp" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteY="176dp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

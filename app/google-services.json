@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "935084754638",
+    "firebase_url": "https://kochegar-aea41.firebaseio.com",
+    "project_id": "kochegar-aea41",
+    "storage_bucket": "kochegar-aea41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935084754638:android:2b5c6efada2ca6e1",
+        "android_client_info": {
+          "package_name": "ru.h1n.kochegar.kochegarone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935084754638-0069nbfi18c4obe0pbg64s51qdg75bmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.h1n.kochegar.kochegarone",
+            "certificate_hash": "48fb1be389dd6012332211c2c064df7e1bece9e1"
+          }
+        },
+        {
+          "client_id": "935084754638-9094bgoc7ghs88lsabesk42asru20grb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0tOlPMj3SdnolPtql3DJP17Bja1dOUDo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935084754638-9094bgoc7ghs88lsabesk42asru20grb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

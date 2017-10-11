@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.h1n.kochegar.kochegarone.KotelNameDataEditActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Введите название оборудования:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNameKotel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Котел № "
+        android:textColorLink="@android:color/holo_green_light"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonAddNewSensor"
+        android:layout_width="72dp"
+        android:layout_height="55dp"
+        android:clickable="true"
+        app:backgroundTint="@android:color/holo_green_light"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginRight="28dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="-9dp"
+        android:text="Добавить новый датчик"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/floatingActionButtonAddNewSensor"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintRight_toRightOf="@+id/floatingActionButtonAddNewSensor"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButtonAddNewSensor" />
+
+    <TextView
+        android:id="@+id/textViewListDetectorSaved"
+        android:layout_width="0dp"
+        android:layout_height="307dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="6dp"
+        android:text="Уже введенные датчики:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameKotel" />
+
+    <Button
+        android:id="@+id/buttonSendToBD"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Отправить данные в базу"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/floatingActionButtonAddNewSensor" />
+
+</android.support.constraint.ConstraintLayout>

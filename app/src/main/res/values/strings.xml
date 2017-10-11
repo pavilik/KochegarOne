@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">KochegarOne</string>
+    <string name="title_activity_login">Вход для Кочегара</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">сюда логин (или email)</string>
+    <string name="prompt_password">сюда пароль</string>
+    <string name="action_sign_in">ВОЙТИ</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">Неверный логин</string>
+    <string name="error_invalid_password">Пароль слишком короткий</string>
+    <string name="error_incorrect_password">Пароль не подходит</string>
+    <string name="error_field_required">Заполните поля</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_kotel_list"> KochegarOne</string>
+    <string name="title_kotel_detail">Данные с датчиков </string>
+    <string name="title_activity_kotel_data_edit">KotelDataEditActivity</string>
+
+</resources>
