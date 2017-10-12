@@ -17,12 +17,13 @@ import ru.h1n.kochegar.kochegarone.WorkDBsenderKotelList;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent {
+public class DummyContent implements WorkDBsenderKotelList.FooListener {
 
     /**
      * An array of sample (dummy) items.
      */
     public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public List<DummyItem> items = new ArrayList<DummyItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -32,20 +33,53 @@ public class DummyContent {
 
 
 
-    static {
-        WorkDBsenderKotelList kotelListFromDB = new WorkDBsenderKotelList();
-       List<StampKotelDataManager> kotelList = kotelListFromDB.getDataKotelFromDB();
+//    static {
+//        WorkDBsenderKotelList kotelListFromDB = new WorkDBsenderKotelList();
+//       List<StampKotelDataManager> kotelList = kotelListFromDB.getDataKotelFromDB();
+//
+//
+//        for (StampKotelDataManager kotelItem : kotelList) {
+//            LinkedHashMap<String,Double> dataDetect = new LinkedHashMap<>();
+//            StringBuilder detectorData =new StringBuilder();
+//            dataDetect.clear();
+//            dataDetect.putAll(kotelItem.getDetectorData());
+//           // detectorData.delete(0,detectorData.length());
+//
+//            for (String detector:dataDetect.keySet()
+//                 ) {
+//                detectorData.append(detector);
+//                detectorData.append(" : ");
+//                detectorData.append(dataDetect.get(detector));
+//                detectorData.append("\n");
+//
+//            }
+//
+//            //detectorData.trimToSize();
+//            DummyItem item = new DummyItem(kotelItem.getDateKoteldData(), kotelItem.getNameKotel(), detectorData.toString());
+//            ITEMS.add(item);
+//            ITEM_MAP.put(item.id, item);
+//        }
+//
+//    }
+
+    public DummyContent() {
+        WorkDBsenderKotelList kotelListFromDB = new WorkDBsenderKotelList(this);
+        kotelListFromDB.getDataKotelFromDB();
+    }
 
 
-        for (StampKotelDataManager kotelItem : kotelList) {
+
+    @Override
+    public void onGetData(List<StampKotelDataManager> data) {
+        for (StampKotelDataManager kotelItem : data) {
             LinkedHashMap<String,Double> dataDetect = new LinkedHashMap<>();
             StringBuilder detectorData =new StringBuilder();
             dataDetect.clear();
             dataDetect.putAll(kotelItem.getDetectorData());
-           // detectorData.delete(0,detectorData.length());
+            // detectorData.delete(0,detectorData.length());
 
             for (String detector:dataDetect.keySet()
-                 ) {
+                    ) {
                 detectorData.append(detector);
                 detectorData.append(" : ");
                 detectorData.append(dataDetect.get(detector));
@@ -55,12 +89,10 @@ public class DummyContent {
 
             //detectorData.trimToSize();
             DummyItem item = new DummyItem(kotelItem.getDateKoteldData(), kotelItem.getNameKotel(), detectorData.toString());
-            ITEMS.add(item);
+            items.add(item);
             ITEM_MAP.put(item.id, item);
         }
-
     }
-
 
     //-----------cut формирование думмиИтем в шаблоне активити
 /*

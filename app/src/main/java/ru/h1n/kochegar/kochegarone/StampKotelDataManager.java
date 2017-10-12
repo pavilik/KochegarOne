@@ -1,5 +1,7 @@
 package ru.h1n.kochegar.kochegarone;
 
+import android.support.v7.app.AppCompatActivity;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,7 +22,7 @@ import java.util.Map;
  */
 
 
-public class StampKotelDataManager /*implements Serializable*/{
+public class StampKotelDataManager{
     private String nameKotel; //имя котла
     private boolean status;     //статус котла вкл\выкл
     private String dateKoteldData; //дата данных с котла предполагается DateToString

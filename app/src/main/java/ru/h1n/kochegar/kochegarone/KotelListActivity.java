@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import ru.h1n.kochegar.kochegarone.dummy.DummyContent;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,16 +125,16 @@ public class KotelListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter());
     }
 
     public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> implements WorkDBsenderKotelList.FooListener {
+        List<DummyItem> items = new ArrayList<DummyItem>();
 
-        private final List<DummyContent.DummyItem> mValues;
-
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
+        public SimpleItemRecyclerViewAdapter() {
+            WorkDBsenderKotelList kotelListFromDB = new WorkDBsenderKotelList(this);
+            kotelListFromDB.getDataKotelFromDB();
         }
 
         @Override
@@ -145,9 +146,9 @@ public class KotelListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mItem = items.get(position);
+            holder.mIdView.setText(items.get(position).id);
+            holder.mContentView.setText(items.get(position).content);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,14 +174,61 @@ public class KotelListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return items.size();
+        }
+
+        @Override
+        public void onGetData(List<StampKotelDataManager> data) {
+            List<DummyItem> newItems = new ArrayList<DummyItem>();
+            Map<String, DummyItem> ITEM_MAP = new LinkedHashMap<String, DummyItem>();
+
+            for (StampKotelDataManager kotelItem : data) {
+                LinkedHashMap<String,Double> dataDetect = new LinkedHashMap<>();
+                StringBuilder detectorData =new StringBuilder();
+                dataDetect.clear();
+                dataDetect.putAll(kotelItem.getDetectorData());
+                // detectorData.delete(0,detectorData.length());
+
+                for (String detector:dataDetect.keySet()
+                        ) {
+                    detectorData.append(detector);
+                    detectorData.append(" : ");
+                    detectorData.append(dataDetect.get(detector));
+                    detectorData.append("\n");
+
+                }
+
+                //detectorData.trimToSize();
+                DummyItem item = new DummyItem(kotelItem.getDateKoteldData(), kotelItem.getNameKotel(), detectorData.toString());
+                newItems.add(item);
+                ITEM_MAP.put(item.id, item);
+            }
+            items = newItems;
+            notifyDataSetChanged();
+        }
+
+        public class DummyItem {
+            public final String id;
+            public final String content;
+            public final String details;
+
+            public DummyItem(String id, String content, String details) {
+                this.id = id;
+                this.content = content;
+                this.details = details;
+            }
+
+            @Override
+            public String toString() {
+                return content;
+            }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public DummyItem mItem;
 
             public ViewHolder(View view) {
                 super(view);

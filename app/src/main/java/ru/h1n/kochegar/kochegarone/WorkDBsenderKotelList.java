@@ -28,8 +28,17 @@ import java.util.Objects;
 public class WorkDBsenderKotelList extends StampKotelDataManager {
     private Double rand;
     private List<StampKotelDataManager> stampKotelDataManagers = new LinkedList<>();
+    private FooListener listener;
 
     public WorkDBsenderKotelList() {
+    }
+
+    public WorkDBsenderKotelList(FooListener listener) {
+        this.listener = listener;
+    }
+
+    public interface FooListener {
+        void onGetData(List<StampKotelDataManager> data);
     }
 
     //методы работы с базой
@@ -46,64 +55,18 @@ public class WorkDBsenderKotelList extends StampKotelDataManager {
     }
 
 
-    public List<StampKotelDataManager> getDataKotelFromDB() {//получение данных из базы
+    public void getDataKotelFromDB() {//получение данных из базы
         //****эмуляция получения данных из базы //
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("KotelDB2");
-        //   final DataSnapshot[] ds = new DataSnapshot[1];
-
-
-        //----------
-        //   final StampKotelDataManager info1 = new StampKotelDataManager();
 
 
         ///-----------
-myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-
-        for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
-            StampKotelDataManager info1 = new StampKotelDataManager();
-            Integer ii = i;
-            info1.setDateKoteldData(dataSnapshot.child(ii.toString()).child("dateKoteldData").getValue(String.class));
-            info1.setNameNewKotelOnlyName(dataSnapshot.child(ii.toString()).child("nameKotel").getValue(String.class));
-
-            GenericTypeIndicator<Map<String, Double>> genericTypeIndicator2 = new GenericTypeIndicator<Map<String, Double>>() {
-            };
-            Map<String, Double> listDetectorInfo = dataSnapshot.child(ii.toString()).child("detectorData").getValue(genericTypeIndicator2);
-///------Непонятно--------две строчки почему-то не работает в методе сетдетектордата на выходе путОлл показывает сайз 0.
-           // LinkedHashMap<String, Double> newtempmap = new LinkedHashMap<String, Double>(listDetectorInfo);
-        //info1.setDetectorData(newtempmap);
-///-----*****
-          for (String nameDetector: listDetectorInfo.keySet()){
-              info1.setDetectorData(nameDetector, listDetectorInfo.get(nameDetector));
-          }
-
-
-            //для дебага
-
-            stampKotelDataManagers.add(info1);
-            String str = listDetectorInfo.toString();//лист содержит мап в котором данные датчиков
-
-        }
-        stampKotelDataManagers.isEmpty();
-        String str = dataSnapshot.child("0").child("dateKoteldData").getValue(String.class);
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-});
-//*******************------------------
         myRef.addValueEventListener(new ValueEventListener() {
-
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
 
                 for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
                     StampKotelDataManager info1 = new StampKotelDataManager();
@@ -114,23 +77,20 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     GenericTypeIndicator<Map<String, Double>> genericTypeIndicator2 = new GenericTypeIndicator<Map<String, Double>>() {
                     };
                     Map<String, Double> listDetectorInfo = dataSnapshot.child(ii.toString()).child("detectorData").getValue(genericTypeIndicator2);
-///не пашут 2 строчки**********
-                  // LinkedHashMap<String, Double> newtempmap = new LinkedHashMap<String, Double>(listDetectorInfo);
-                    //info1.setDetectorData(newtempmap);
-//***************
-                    for (String nameDetector: listDetectorInfo.keySet()){
+
+                    for (String nameDetector : listDetectorInfo.keySet()) {
                         info1.setDetectorData(nameDetector, listDetectorInfo.get(nameDetector));
                     }
 
-
-                    //для дебага
-
                     stampKotelDataManagers.add(info1);
-                    String str = listDetectorInfo.toString();//лист содержит мап в котором данные датчиков
-
+                    if (listener != null) {
+                        listener.onGetData(stampKotelDataManagers);
+                    }
                 }
-                stampKotelDataManagers.isEmpty();
-                String str = dataSnapshot.child("0").child("dateKoteldData").getValue(String.class);
+
+                //
+                // stampKotelDataManagers.isEmpty();
+                //       String str = dataSnapshot.child("0").child("dateKoteldData").getValue(String.class);
             }
 
             @Override
@@ -138,8 +98,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             }
         });
-
-
 
 
      /*   for (int j = 1; j <= 5; j++) {
@@ -167,6 +125,6 @@ myRef.addListenerForSingleValueEvent(new ValueEventListener() {
         // Конец эмуляции******///
 
 
-        return stampKotelDataManagers;///список данных из базы
+//        return stampKotelDataManagers;///список данных из базы
     }
 }
