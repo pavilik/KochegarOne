@@ -11,13 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import java.util.Map;
+
 /**
  * An activity representing a single Kotel detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link KotelListActivity}.
  */
-public class KotelDetailActivity extends AppCompatActivity {
+public class KotelDetailActivity extends AppCompatActivity implements WorkDBsenderKotelList.DetailListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class KotelDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +60,9 @@ public class KotelDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(KotelDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(KotelDetailFragment.ARG_ITEM_ID));
+            //----
+
+            //---
             KotelDetailFragment fragment = new KotelDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -79,5 +86,10 @@ public class KotelDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onGetDetail(Map<String, Double> kotelDetail) {
+
     }
 }

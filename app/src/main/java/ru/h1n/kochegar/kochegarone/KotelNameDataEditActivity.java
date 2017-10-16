@@ -73,19 +73,23 @@ public class KotelNameDataEditActivity extends AppCompatActivity {
 
                 String dateKoteldData1 = dateFormat.format(date);
               ((KochegarApp) getApplication()).getSkdm().setDateKoteldData(dateKoteldData1);//добавляем в объект котла дату создания данных котла(текущее время)
+
                 List<StampKotelDataManager> stampKotelDataManagers = new LinkedList<>();//подготавка листа для передачи
                 stampKotelDataManagers.add(((KochegarApp) getApplication()).getSkdm());//добавляем в лист один объект
                 //добавляем дубль для тестирования
-                dateFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:ss.SSSS");
-                Date date2 = new Date();
-                String dateKoteldData = dateFormat.format(date2);
-                ((KochegarApp) getApplication()).getSkdm().setDateKoteldData(dateKoteldData);
-                stampKotelDataManagers.add(((KochegarApp) getApplication()).getSkdm());
+//                dateFormat = new SimpleDateFormat("yyyy.MM.dd' 'HH:ss.SSSS");
+//                Date date2 = new Date();
+//                String dateKoteldData = dateFormat.format(date2);
+//                ((KochegarApp) getApplication()).getSkdm().setDateKoteldData(dateKoteldData);
+//                stampKotelDataManagers.add(((KochegarApp) getApplication()).getSkdm());
                 /////----------end add дубля
+
                 WorkDBsenderKotelList dBsenderKotelList = new WorkDBsenderKotelList();//создаем объект для передачи
+
+
                 dBsenderKotelList.sendDataKotelToDB(stampKotelDataManagers);//передаем лист объектов котлов для работы с базой данных
 
-                ((KochegarApp) getApplication()).getSkdm().clearData();
+             //   ((KochegarApp) getApplication()).getSkdm().clearData();//очищаем хранилище данных для котла
                 // перейти в общую форму и там не забыть обновить данные
                 finish();
             }

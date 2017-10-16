@@ -1,10 +1,13 @@
 package ru.h1n.kochegar.kochegarone;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -64,7 +67,7 @@ public class KotelListActivity extends AppCompatActivity {
                @Override
                public void onClick(View view){
 
-                   //вызов активити main-------------
+                   //вызов активити редактирования котла-------------
 
                    Context context = view.getContext();
                    Intent mainpage = new Intent(context, KotelNameDataEditActivity.class);
@@ -131,6 +134,9 @@ public class KotelListActivity extends AppCompatActivity {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> implements WorkDBsenderKotelList.FooListener {
         List<DummyItem> items = new ArrayList<DummyItem>();
+       // public final Map<String, DummyItem> ITEM_MAP = new LinkedHashMap<String, DummyItem>();
+
+
 
         public SimpleItemRecyclerViewAdapter() {
             WorkDBsenderKotelList kotelListFromDB = new WorkDBsenderKotelList(this);
@@ -164,7 +170,8 @@ public class KotelListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, KotelDetailActivity.class);
-                        intent.putExtra(KotelDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(KotelDetailFragment.ARG_ITEM_ID, holder.mItem.content);
+                    //    intent.putExtra(KotelDetailFragment.ARG_ITEM, holder.mItem.content);
 
                         context.startActivity(intent);
                     }
@@ -180,7 +187,7 @@ public class KotelListActivity extends AppCompatActivity {
         @Override
         public void onGetData(List<StampKotelDataManager> data) {
             List<DummyItem> newItems = new ArrayList<DummyItem>();
-            Map<String, DummyItem> ITEM_MAP = new LinkedHashMap<String, DummyItem>();
+      //  Map<String, DummyItem> ITEM_MAP = new LinkedHashMap<String, DummyItem>();
 
             for (StampKotelDataManager kotelItem : data) {
                 LinkedHashMap<String,Double> dataDetect = new LinkedHashMap<>();
@@ -198,11 +205,12 @@ public class KotelListActivity extends AppCompatActivity {
 
                 }
 
-                //detectorData.trimToSize();
+
                 DummyItem item = new DummyItem(kotelItem.getDateKoteldData(), kotelItem.getNameKotel(), detectorData.toString());
                 newItems.add(item);
-                ITEM_MAP.put(item.id, item);
+              //  ITEM_MAP.put(item.id, item);
             }
+            items.clear();
             items = newItems;
             notifyDataSetChanged();
         }

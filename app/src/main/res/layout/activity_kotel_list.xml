@@ -27,7 +27,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/kotel_list" />
+        <include layout="@layout/kotel_list"
+            android:layout_height="440dp"
+            android:layout_width="match_parent" />
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton

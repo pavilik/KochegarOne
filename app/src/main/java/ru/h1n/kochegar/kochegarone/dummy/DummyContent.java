@@ -22,7 +22,7 @@ public class DummyContent implements WorkDBsenderKotelList.FooListener {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+ //   public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
     public List<DummyItem> items = new ArrayList<DummyItem>();
 
     /**

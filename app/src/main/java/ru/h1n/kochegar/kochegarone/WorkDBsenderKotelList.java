@@ -26,9 +26,13 @@ import java.util.Objects;
  */
 
 public class WorkDBsenderKotelList extends StampKotelDataManager {
-    private Double rand;
+    //  private Double rand;
     private List<StampKotelDataManager> stampKotelDataManagers = new LinkedList<>();
     private FooListener listener;
+    private DetailListener detailListener;
+    private ValueEventListener detailEventListener;
+    private ValueEventListener senderEventListener;
+
 
     public WorkDBsenderKotelList() {
     }
@@ -37,21 +41,110 @@ public class WorkDBsenderKotelList extends StampKotelDataManager {
         this.listener = listener;
     }
 
+    public WorkDBsenderKotelList(DetailListener detailListener) {
+        this.detailListener = detailListener;
+    }
+
     public interface FooListener {
         void onGetData(List<StampKotelDataManager> data);
     }
 
+    //
+    public interface DetailListener {
+        void onGetDetail(Map<String, Double> kotelDetail);
+    }
+    //
+
     //методы работы с базой
-    public boolean sendDataKotelToDB(List<StampKotelDataManager> kotels) {//передача данных в базу
+    public boolean sendDataKotelToDB(final List<StampKotelDataManager> kotels) {//передача данных в базу
 // Write a message to the database
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("KotelDB2");
+       final DatabaseReference myRef = database.getReference("KotelDB2");
+
+        //****************
+myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+            StampKotelDataManager info1 = new StampKotelDataManager();
+            Integer ii = i;
+            info1.setDateKoteldData(dataSnapshot.child(ii.toString()).child("dateKoteldData").getValue(String.class));
+            info1.setNameNewKotelOnlyName(dataSnapshot.child(ii.toString()).child("nameKotel").getValue(String.class));
+
+            GenericTypeIndicator<Map<String, Double>> genericTypeIndicator2 = new GenericTypeIndicator<Map<String, Double>>() {
+            };
+
+            Map<String, Double> listDetectorInfo = dataSnapshot.child(ii.toString()).child("detectorData").getValue(genericTypeIndicator2);
+            if (listDetectorInfo!=null) {
+                for (String nameDetector : listDetectorInfo.keySet()) {
+                    info1.setDetectorData(nameDetector, listDetectorInfo.get(nameDetector));
+                }
+            }
+            kotels.add(info1);
+        }
 
         myRef.setValue(kotels);
 
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+});
+
+
+
+        //**************************************
+     //   myRef.setValue(kotels);
+
+
         return true;//реализация взаимодействия с firebase
 
+    }
+
+    public void getDetailDataFromDB(final String nameKotel) { //сюда передать имя котла значене деталей которого нужно получить
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef2 = database.getReference("KotelDB2");
+        ///далее  код для получение данных из базы и формирование мап листа конкретного котла
+
+        detailEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                    Integer ii = i;
+                    if (nameKotel.contains(dataSnapshot.child(ii.toString()).child("nameKotel").getValue(String.class))) {
+                        GenericTypeIndicator<Map<String, Double>> genericTypeIndicator2 = new GenericTypeIndicator<Map<String, Double>>() {
+                        };
+                        Map<String, Double> listDetectorInfo1 = dataSnapshot.child(ii.toString()).child("detectorData").getValue(genericTypeIndicator2);
+
+                        if (detailListener != null && listDetectorInfo1!=null) {
+                            detailListener.onGetDetail(listDetectorInfo1);//
+                            break;
+                        }
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        myRef2.addValueEventListener(detailEventListener);
+
+    }
+
+    public void removeDetailEventListener() {
+        FirebaseDatabase.getInstance().getReference("KotelDB2").removeEventListener(detailEventListener);
     }
 
 
@@ -67,7 +160,7 @@ public class WorkDBsenderKotelList extends StampKotelDataManager {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                stampKotelDataManagers.clear();
                 for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
                     StampKotelDataManager info1 = new StampKotelDataManager();
                     Integer ii = i;
@@ -76,12 +169,13 @@ public class WorkDBsenderKotelList extends StampKotelDataManager {
 
                     GenericTypeIndicator<Map<String, Double>> genericTypeIndicator2 = new GenericTypeIndicator<Map<String, Double>>() {
                     };
+
                     Map<String, Double> listDetectorInfo = dataSnapshot.child(ii.toString()).child("detectorData").getValue(genericTypeIndicator2);
-
-                    for (String nameDetector : listDetectorInfo.keySet()) {
-                        info1.setDetectorData(nameDetector, listDetectorInfo.get(nameDetector));
+                    if (listDetectorInfo!=null) {
+                        for (String nameDetector : listDetectorInfo.keySet()) {
+                            info1.setDetectorData(nameDetector, listDetectorInfo.get(nameDetector));
+                        }
                     }
-
                     stampKotelDataManagers.add(info1);
                     if (listener != null) {
                         listener.onGetData(stampKotelDataManagers);
